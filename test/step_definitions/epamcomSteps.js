@@ -1,18 +1,19 @@
 const {When, Then, setDefaultTimeout} = require('cucumber');
 const { browser } = require('protractor');
 const {expect} = require('chai');
-const {expect} = require('mocha');
-setDefaultTimeout(60000);
+//const {expect} = require('mocha');
+setDefaultTimeout(10000);
 
-When(/^I open epam.com$/, function() {
-    return browser.get('https://epam.com/');
-});
+When('I open {string} url', async function(url) {
+    return browser.get(url);
+  });
 
-Then(/^Page title should be 'EPAM | Enterprise Software Development, Design & Consulting'$/, async function () {
+Then(/^Page title should be "([^"]*)"$/, async function(title) {
     const pageTitle = await browser.getTitle();
-    expect(pageTitle).to.be.equal('EPAM | Enterprise Software Development, Design & Consulting');
-});
+    expect(pageTitle).to.be.equal(title);
+  });
 
-When(/^I wait for 10 seconds$/, function() {
-    return browser.sleep(10000);
-});
+When('I wait "{int}" seconds', function(timeInSeconds) {
+    return browser.sleep(timeInSeconds * 1000);
+  });
+  
