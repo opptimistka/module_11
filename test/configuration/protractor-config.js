@@ -1,5 +1,7 @@
 const path = require('path');
-const { browser } = require('protractor');
+const {
+    browser
+} = require('protractor');
 exports.config = {
     allScriptsTimeout: 60000,
     getPageTimeout: 60000,
@@ -10,7 +12,7 @@ exports.config = {
     capabilities: {
         browserName: 'chrome',
         chromeOptions: {
-            args: ['--no-sandbox', '--window-size=1920,1080']
+            args: ['--no-sandbox', '--start-fullscreen']
         },
         'goog:chromeOptions': {
             w3c: false
@@ -22,12 +24,16 @@ exports.config = {
         directConnect: true,
         cucumberOpts: {
             require: [path.resolve('./test/step_definitions/**/*.js')],
-//            ignoreUncaughtExceptions: true,
-//            format: ['json:./test/reports/report.json'],
+            //            ignoreUncaughtExceptions: true,
+            //            format: ['json:./test/reports/report.json'],
             tags: '@smoke'
         },
+        // onPrepare: () => {
+        //     return browser.waitForAngularEnabled(false)
+        // },
         onPrepare: () => {
-            return browser.waitForAngularEnabled(false)
+            //            browser.manage().window().maximize()
+            browser.manage().window().setSize(1920, 1080);
         }
     }
 }
