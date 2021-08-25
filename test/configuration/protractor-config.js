@@ -3,8 +3,8 @@ const {
     browser
 } = require('protractor');
 exports.config = {
-    allScriptsTimeout: 60000,
-    getPageTimeout: 60000,
+    allScriptsTimeout: 10000,
+    getPageTimeout: 10000,
     specs: [path.resolve('./test/features/**/*.feature')],
     // specs: ['../features/epamcom.feature'],
     framework: 'custom',
@@ -26,11 +26,11 @@ exports.config = {
             require: [path.resolve('./test/step_definitions/**/*.js')],
             //            ignoreUncaughtExceptions: true,
             //            format: ['json:./test/reports/report.json'],
-            tags: '@smoke'
+            tags: '@epam'
         },
-        // onPrepare: () => {
-        //     return browser.waitForAngularEnabled(false)
-        // },
+        onPrepare: () => {
+            browser.waitForAngularEnabled(false);
+        },
         onPrepare: () => {
             //            browser.manage().window().maximize()
             browser.manage().window().setSize(1920, 1080);
