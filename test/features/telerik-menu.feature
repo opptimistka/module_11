@@ -1,10 +1,10 @@
-@smoke
+@all
 Feature: Telerik site menu verification
 
 @menu
 Scenario Outline: Check menu item: <URL>
   Given I open 'https://www.telerik.com/' url
-  Then I highlight '<xpath>'
+  Then I highlight '<element_name>' by xpath '<xpath>'
 When I wait for 2 seconds
   Then I click '<element_name>' by xpath '<xpath>'
 When I wait for 2 seconds

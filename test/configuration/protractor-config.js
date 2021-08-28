@@ -1,13 +1,6 @@
 const path = require('path');
 const yargs = require('yargs').argv;
-const reporter = require('cucumber-html-reporter');
-
-const reportOtions = {
-    theme: 'bootstrap',
-    jsonFile: path.join(__dirname, '../reports/report.json'),
-    output: path.join(__dirname, '../reports/cucumber-report.html'),
-    reportSuitsAsSCenarios: true
-};
+const reporter = require('multiple-cucumber-html-reporter');
 
 exports.config = {
     allScriptsTimeout: 10000,
@@ -22,6 +15,17 @@ exports.config = {
         chromeOptions: {
             args: ['--no-sandbox']
         },
+        metadata: {
+            browser: {
+                name: 'chrome',
+                version: '92'
+            },
+            device: 'Win10 laptop',
+            platform: {
+                name: 'Windows',
+                version: 'Win10'
+            }
+        }
     },
     disableChecks: true,
     directConnect: true,
@@ -29,13 +33,23 @@ exports.config = {
         require: [path.resolve('./test/step_definitions/**/*.js')],
         ignoreUncaughtExceptions: true,
         format: ['json:./test/reports/report.json', './node_modules/cucumber-pretty'],
-        tags: yargs.tags || '@smoke'
+        tags: yargs.tags || '@all'
     },
+
+    plugins: [{
+        package: 'protractor-multiple-cucumber-html-reporter-plugin',
+        options:{
+            automaticallyGenerateReport: true,
+            removeExistingJsonReportFile: true,
+            displayDuration: true,
+            durationInMS: true,
+            reportName: 'telerik-test.html',
+            pageTitle: 'Telerik test'
+        }
+    }],
+
     onPrepare: function () {
         browser.waitForAngularEnabled(false);
         return browser.manage().window().maximize();
-    },
-    afterLaunch: () => {
-        return reporter.generate(reportOtions);
     }
 };
