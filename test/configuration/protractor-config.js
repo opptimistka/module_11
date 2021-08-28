@@ -1,13 +1,13 @@
 const path = require('path');
 const yargs = require('yargs').argv;
-// const reporter = require('cucumber-html-reporter');
+const reporter = require('cucumber-html-reporter');
 
-// const reportOtions = {
-//     theme: 'bootstrap',
-//     jsonFile: path.join(__dirname, '../reports/report.json'),
-//     output: path.join(__dirname, '../reports/cucumber-report.html'),
-//     reportSuitsAsSCenarios: true
-// };
+const reportOtions = {
+    theme: 'bootstrap',
+    jsonFile: path.join(__dirname, '../reports/report.json'),
+    output: path.join(__dirname, '../reports/cucumber-report.html'),
+    reportSuitsAsSCenarios: true
+};
 
 exports.config = {
     allScriptsTimeout: 10000,
