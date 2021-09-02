@@ -3,12 +3,9 @@ const yargs = require('yargs').argv;
 const reporter = require('multiple-cucumber-html-reporter');
 const junitReporter = require('cucumber-junit-convert');
 const junitConvertOptions = {
-    inputJsonFile: path.join(__dirname, '../reports/merged-test-results.json'),
+    inputJsonFile: path.join(__dirname, '../reports/report.json'),
     outputXmlFile: path.join(__dirname, '../reports/junit_xml_report.xml')
 };
-
-const PowerShell = require('powershell');
-let powershell = new PowerShell('cucumber-json-merge [options] --dir \'./test/reports/json-output-folder\'--out \'./test/reports/merged-test-results.json\' --createDir=true');
 
 exports.config = {
     allScriptsTimeout: 10000,
@@ -61,20 +58,7 @@ exports.config = {
         return browser.manage().window().maximize();
     },
 
-    afterEach: function () {
-        return browser.takeScreenshot().then(function (screenshot) {
-            let decodedImage = Buffer.from(screenshot['base64']);
-            return this.attach(decodedImage, 'image/png');
-        });
-    },
-
     afterLaunch: function () {
-        powershell.on('output', data => {
-            console.log(data);
-        });
-        powershell.on('end', code => {
-            setTimeout(1000);
-        });
         return junitReporter.convert(junitConvertOptions);
     }
 };
